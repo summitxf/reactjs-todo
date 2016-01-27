@@ -55,7 +55,12 @@ module.exports = function (grunt) {
             }
         },
         browserify: {
-            dist: {
+            dev: {
+                files: {
+                    "build/<%= pkg.name %>.js": "build/index.dev.js"
+                }
+            },
+            prod: {
                 files: {
                     "build/<%= pkg.name %>.js": "build/index.js"
                 }
@@ -108,7 +113,7 @@ module.exports = function (grunt) {
         watch     : {
             babel: {
                 files: ['js/*.js','js/**/*.js'],
-                tasks: ['babel:dist', 'browserify:dist']
+                tasks: ['babel:dist', 'browserify:dev']
             }
         }
     });
@@ -130,7 +135,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'clean',
         'babel',
-        'browserify',
+        'browserify:dev',
         'configureProxies:server',
         'connect:server',
         'watch:babel'
@@ -139,16 +144,11 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean',
         'babel',
-        'browserify',
+        'browserify:prod',
         'copy',
         'uglify',
         'cssmin',
         'usemin'
     ]);
 
-    grunt.registerTask('bb', [
-        'clean',
-        'babel',
-        'browserify'
-    ]);
 };
