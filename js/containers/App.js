@@ -11,28 +11,18 @@ class App extends Component {
         const { dispatch, visibleTodos, visibilityFilter } = this.props
         return (
             <div>
-                <AddTodo
-                    onAddClick={text =>
-            dispatch(addTodo(text))
-          } />
-                <TodoList
-                    todos={visibleTodos}
-                    onTodoClick={id =>
-            dispatch(completeTodo(id))
-          } />
-                <Footer
-                    filter={visibilityFilter}
-                    onFilterChange={nextFilter =>
-            dispatch(setVisibilityFilter(nextFilter))
-          } />
+                <AddTodo onAddClick={text =>dispatch(addTodo(text))}/>
+                <TodoList todos={visibleTodos} onTodoClick={id => dispatch(completeTodo(id)) }/>
+                <Footer filter={visibilityFilter}
+                        onFilterChange={nextFilter => dispatch(setVisibilityFilter(nextFilter))}/>
             </div>
         )
     }
 }
 
 App.propTypes = {
-    visibleTodos: PropTypes.arrayOf(PropTypes.shape({
-        text: PropTypes.string.isRequired,
+    visibleTodos    : PropTypes.arrayOf(PropTypes.shape({
+        text     : PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired
     }).isRequired).isRequired,
     visibilityFilter: PropTypes.oneOf([
@@ -57,7 +47,7 @@ function selectTodos(todos, filter) {
 // Note: use https://github.com/faassen/reselect for better performance.
 function select(state) {
     return {
-        visibleTodos: selectTodos(state.todos, state.visibilityFilter),
+        visibleTodos    : selectTodos(state.todos, state.visibilityFilter),
         visibilityFilter: state.visibilityFilter
     }
 }
